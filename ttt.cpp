@@ -1,88 +1,57 @@
 #include <iostream>
-#include <vector>
-void display(std::vector<std::string> num) {
-  std::cout << " " << num[0] << " | " << num[1] << " | " << num[2] << std::endl;
-  std::cout << "-----------" << std::endl;
-  std::cout << " " << num[3] << " | " << num[4] << " | " << num[5] << std::endl;
-  std::cout << "-----------" << std::endl;
-  std::cout << " " << num[6] << " | " << num[7] << " | " << num[8] << std::endl;
+#include <cmath>
+using namespace std;
+void display(string grid[]) {
+    cout << " " << grid[0] << " | " << grid[1] << " | " << grid[2] << endl;
+    cout << "-----------" << endl;
+    cout << " " << grid[3] << " | " << grid[4] << " | " << grid[5] << endl;
+    cout << "-----------" << endl;
+    cout << " " << grid[6] << " | " << grid[7] << " | " << grid[8] << endl;
 }
 
-int choose(std::string name, std::vector<std::string> num) {
-  int index;
-  std::cout << std::endl;
-  display(num);
-  std::cout << name << ", please choose a number: ";
-  std::cin >> index;
-  std::cout << "------------------------------";
-  std::cout << std::endl;
-  while (num[index-1] == "x" || num[index-1] == "o") {
-    std::cout << "Invalid, try again: ";
-    std::cin >> index;
-  }
-
-  return index;
+void choose(string name, string grid[]) {
+    int index;
+    display(grid);
+    cout << name << ", please choose a number: ", cin >> index, cout << endl;
+    while (grid[index - 1] == "x" || grid[index - 1] == "o") {
+        cout << "Invalid, try again: ", cin >> index;
+    }
+    grid[index - 1] = name;
 }
 
-bool check(std::vector<std::string> num) {
-  for (int i = 0; i < 9; i++) {
-    if (num[i] == num[i+3] && num[i+3] == num[i+6]) {
-      return true;
+bool check(string grid[]) {
+    bool condition1 = (grid[0] == grid[4] && grid[4] == grid[8]);
+    bool condition2 = (grid[0] == grid[4] && grid[4] == grid[8]);
+    for (int i = 0; i < 3; i++) {
+        bool condition3 = (grid[i * 3] == grid[i * 3 + 1] && grid[i * 3 + 1] == grid[i * 3 + 2]);
+        bool condition4 = (grid[i] == grid[i + 3] && grid[i + 3] == grid[i + 6]);
+        if (condition1 || condition2 || condition3 || condition4) {
+            return true;
+        }
     }
-  }
-  for (int i = 0; i < 9; i+=3) {
-    if (num[i] == num[i+1] && num[i+1] == num[i+2]) {
-      return true;
+    return false;
+}
+void play() {
+    string player1 = "x", player2 = "o";
+    string grid[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    while (!check(grid)) {
+        choose(player1, grid);
+        if(check(grid)) {
+            cout << "Congratulations, " << player1 << " won the game!" << endl;
+            break;
+        }
+        choose(player2, grid);
+        if(check(grid)) {
+            cout << "Congratulations, " << player2 << " won the game!" << endl;
+            break;
+        }
     }
-  }
-  if (num[0] == num[4] && num[4] == num[8]) {
-    return true;
-  }
-  else if (num[2] == num[4] && num[4] == num[6]) {
-    return true;
-  }
-  return false;
 }
 
 int main() {
-  std::string player1_name;
-  std::string player2_name;
-
-  std::cout << "Player1, please enter your name: ";
-  std::cin >> player1_name;
-  std::cout << "Player2, please enter your name: ";
-  std::cin >> player2_name;
-  
-  std::vector<std::string> num;
-  num.push_back("1");
-  num.push_back("2");
-  num.push_back("3");
-  num.push_back("4");
-  num.push_back("5");
-  num.push_back("6");
-  num.push_back("7");
-  num.push_back("8");
-  num.push_back("9");
-  // {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-  std::string final_name;
-  while (true) {
-
-    num[choose(player1_name, num) - 1] = "x";
-    if (check(num)) {
-      final_name = player1_name;
-      break;
-    }
-
-    num[choose(player2_name, num) - 1] = "o";
-    if (check(num)) {
-      final_name = player2_name;
-      break;
-    }
-  }
-  std::cout << std::endl;
-  display(num);
-  for (int i = 0; i < 3; i++) {
-    std::cout << "\nCongratulations " << final_name << ", you win the game!\n";
-  } 
-  std::cout << "Thank you for playing!";
+    vector<int> a = 20;
+    int b = 10;
+    cout << a&b << endl;
+    return 0;
 }
+
